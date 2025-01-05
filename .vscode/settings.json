@@ -5,5 +5,6 @@
     "editor.wordWrapColumn": 125,
     "workbench.editor.wrapTabs": true,
     "editor.formatOnSave": true,
-    "doki.background.path": "https://static.wikia.nocookie.net/xian-ni/images/9/96/IMG_3979.jpeg/revision/latest?cb=20240429212832"
+    "doki.background.path": "https://static.wikia.nocookie.net/xian-ni/images/9/96/IMG_3979.jpeg/revision/latest?cb=20240429212832",
+    "dart.hotReloadOnSave": "manual"
 }
