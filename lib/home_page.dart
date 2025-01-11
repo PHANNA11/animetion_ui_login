@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/shop/detail_image.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
@@ -15,6 +16,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
     'https://images.pexels.com/photos/3998365/pexels-photo-3998365.png',
     'https://thumbs.dreamstime.com/b/two-ladybugs-orange-spring-flower-flight-insect-artistic-macro-image-concept-spring-summer-two-ladybugs-orange-125140826.jpg',
   ];
+
+  bool isShowGrid = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,25 @@ class _HomePageScreenState extends State<HomePageScreen> {
             )
           ],
         ),
-        body: buildListViewStyle()
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isShowGrid = !isShowGrid;
+                      });
+                    },
+                    icon: Icon(Icons.menu))
+              ],
+            ),
+            Expanded(
+                child:
+                    isShowGrid ? buildGridViewStyle() : buildListViewStyle()),
+          ],
+        )
         // Expanded(child: buildListViewStyle()),
 
         );
@@ -41,7 +62,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   Widget buildGridViewStyle() {
     return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
+      // physics: NeverScrollableScrollPhysics(),
       itemCount: listImages.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           mainAxisExtent: 250,
@@ -50,34 +71,45 @@ class _HomePageScreenState extends State<HomePageScreen> {
           mainAxisSpacing: 4.0,
           childAspectRatio: 9 / 12),
       itemBuilder: (BuildContext context, int index) {
-        return Stack(
-          children: [
-            Container(
-              margin: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    listImages[index].toString(),
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailImageScreen(
+                    image: listImages[index],
+                  ),
+                ));
+          },
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      listImages[index].toString(),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-                top: 10,
-                left: 10,
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue, width: 2),
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              'https://tse1.mm.bing.net/th/id/OET.7252da000e8341b2ba1fb61c275c1f30?w=594&h=594&c=7&rs=1&o=5&pid=1.9'))),
-                ))
-          ],
+              Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue, width: 2),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                'https://tse1.mm.bing.net/th/id/OET.7252da000e8341b2ba1fb61c275c1f30?w=594&h=594&c=7&rs=1&o=5&pid=1.9'))),
+                  ))
+            ],
+          ),
         );
       },
     );
